@@ -5,6 +5,7 @@
 /.idea/
 /.vscode/
 npm-debug.log
+composer.lock
 
 # Optional ignores
 # /build_staging/
