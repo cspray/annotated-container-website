@@ -4,4 +4,4 @@
     status = 404
 
 [context.production]
-    PHP_VERSION="8.1"
+    PHP_VERSION="8.0"
