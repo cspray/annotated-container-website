@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:documentation>
+      This Schema defines how to configure Annotated Container to bootstrap itself.
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:element name="annotatedContainer" type="annotatedContainerType">
+    <xs:annotation>
+      <xs:documentation>Root Element</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:complexType name="annotatedContainerType">
+    <xs:all>
+      <xs:element name="scanDirectories" type="scanDirectoriesType">
+        <xs:annotation>
+          <xs:documentation>
+            Define locations that should be scanned for Attributes to create your ContainerDefinition.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="cacheDir" type="xs:string" minOccurs="0" maxOccurs="1"/>
+
+      <xs:element name="containerDefinitionBuilderContextConsumers" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="fqcn" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="parameterStores" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="fqcn" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="scanDirectoriesType">
+    <xs:all>
+      <xs:element name="source" minOccurs="1" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="dir" type="sourceDirType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="vendor" minOccurs="0" maxOccurs="1" type="vendorType"/>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="sourceDirType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="packagePrivate" type="xs:boolean" default="false" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="vendorType">
+    <xs:sequence minOccurs="1" maxOccurs="unbounded">
+      <xs:element name="package" type="vendorPackageType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="vendorPackageType">
+    <xs:simpleContent>
+      <xs:extension base="vendorPackageNameType">
+        <xs:attribute name="path" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:simpleType name="vendorPackageNameType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value=".+/.+"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
